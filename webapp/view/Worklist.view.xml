@@ -47,7 +47,9 @@
                         <SearchField
                             id="searchField"
                             tooltip="{i18n>worklistSearchTooltip}"
-                            search=".onSearch2">
+                            search=".onSearch2"
+                            liveChange=".onSearch2"
+                            >
                             <layoutData>
                                 <OverflowToolbarLayoutData
                                     maxWidth="200px"
@@ -74,6 +76,9 @@
 						<Text text="Aprovar" />
 					</Column>
                     <Column hAlign="End">
+						<Text text="Aprovar2" />
+					</Column>
+                    <Column hAlign="End">
 						<Text text="Deletar" />
 					</Column>
                 </columns>
@@ -95,7 +100,17 @@
                                     formatter: '.formatter.currencyUnit'
                                 }"
                                 unit="{Waerk}" />
-                            <Button icon="{= ${Aprovado} === true ? 'sap-icon://accept' : 'sap-icon://approve'}" press="onAprovarProduto" />
+                            <Button 
+                                icon="{= ${Aprovado} === true ? 'sap-icon://accept' : 'sap-icon://approve'}" 
+                                text="{= ${Aprovado} === true ? 'Autorizado' : 'Pendente'}"
+                                press="onAprovarProduto" />
+                            <ToggleButton
+                                id="flaggedButton"
+                                tooltip="{i18n>flaggedTooltip}"                                
+                                enabled="true"
+                                pressed="{= ${Aprovado} === true ? true : false}"
+                                text="{= ${Aprovado} === true ? 'Autorizado' : 'Pendente'}"
+                                class="sapUiMediumMarginBeginEnd"/>
                             <Button icon="sap-icon://delete"    press="onDeletar" />
                         </cells>
                     </ColumnListItem>

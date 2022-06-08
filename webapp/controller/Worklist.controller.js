@@ -223,11 +223,84 @@ sap.ui.define([
         },
 
         onSearch2 : function (oEvent) {
-			
-            var aTableSearchState = [];
-            var sQuery = oEvent.getParameter("query");
 
-            // if (sQuery && sQuery.length > 0) {
+            //teste 4
+            var sQuery = oEvent.getSource().getValue();
+            if (oEvent.getParameters().refreshButtonPressed) {
+                // Search field's 'refresh' button has been pressed.
+                // This is visible if you select any main list item.
+                // In this case no new search is triggered, we only
+                // refresh the list binding.
+                this.onRefresh();
+            
+            } else if (!sQuery) {
+                var aFilters = new sap.ui.model.Filter({
+                    filters: [
+                    ],
+                    and: false
+                  });
+
+            } else if (sQuery && sQuery.length > 0) {
+                var aFilters = new sap.ui.model.Filter({
+                    filters: [
+                      new sap.ui.model.Filter("Codigo", sap.ui.model.FilterOperator.EQ, parseInt(sQuery) ),
+                      new sap.ui.model.Filter("Descricao", sap.ui.model.FilterOperator.Contains, sQuery )
+                    ],
+                    and: false
+                  });
+            }
+
+            // update list binding
+			var oList = this.byId("table");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilters, "Application");
+
+            //teste 3
+			// add filter for search
+			//var aFilters = [];
+            // var aFilters = new sap.ui.model.Filter({
+            //     filters: [
+            //       new sap.ui.model.Filter("Codigo", sap.ui.model.FilterOperator.EQ, parseInt(sQuery)),
+            //       new sap.ui.model.Filter("ID", sap.ui.model.FilterOperator.EQ, sQuery)
+            //     ],
+            //     and: false
+            //   });
+			// // update list binding
+			// var oList = this.byId("table");
+			// var oBinding = oList.getBinding("items");
+			// oBinding.filter(aFilters, "Application");
+
+            // teste 2
+            // var aTableSearchState = [];
+            // var sQuery = oEvent.getParameter("query");
+
+            // // if (sQuery && sQuery.length > 0) {
+            // //     aTableSearchState = [
+            // //         //new Filter("Codigo", FilterOperator.Contains, sQuery),
+            // //         new Filter("Descricao", FilterOperator.Contains, sQuery)
+            // //     ];
+
+            // //     var table = this.byId("table");
+            // //     var itens = table.getBinding("items");
+            // //     itens.filter(aTableSearchState);
+            // // }
+
+            // if (oEvent.getParameters().refreshButtonPressed) {
+            //     // Search field's 'refresh' button has been pressed.
+            //     // This is visible if you select any main list item.
+            //     // In this case no new search is triggered, we only
+            //     // refresh the list binding.
+            //     this.onRefresh();
+            // } else if (!sQuery) {
+            //     aTableSearchState = [
+            //         //new Filter("Codigo", FilterOperator.Contains, sQuery),
+            //         new Filter("Descricao", FilterOperator.Contains, sQuery)
+            //     ];
+
+            //     var table = this.byId("table");
+            //     var itens = table.getBinding("items");
+            //     itens.filter(aTableSearchState);
+            // } else if (sQuery && sQuery.length > 0) {
             //     aTableSearchState = [
             //         //new Filter("Codigo", FilterOperator.Contains, sQuery),
             //         new Filter("Descricao", FilterOperator.Contains, sQuery)
@@ -237,32 +310,6 @@ sap.ui.define([
             //     var itens = table.getBinding("items");
             //     itens.filter(aTableSearchState);
             // }
-
-            if (oEvent.getParameters().refreshButtonPressed) {
-                // Search field's 'refresh' button has been pressed.
-                // This is visible if you select any main list item.
-                // In this case no new search is triggered, we only
-                // refresh the list binding.
-                this.onRefresh();
-            } else if (!sQuery) {
-                aTableSearchState = [
-                    //new Filter("Codigo", FilterOperator.Contains, sQuery),
-                    new Filter("Descricao", FilterOperator.Contains, sQuery)
-                ];
-
-                var table = this.byId("table");
-                var itens = table.getBinding("items");
-                itens.filter(aTableSearchState);
-            } else if (sQuery && sQuery.length > 0) {
-                aTableSearchState = [
-                    //new Filter("Codigo", FilterOperator.Contains, sQuery),
-                    new Filter("Descricao", FilterOperator.Contains, sQuery)
-                ];
-
-                var table = this.byId("table");
-                var itens = table.getBinding("items");
-                itens.filter(aTableSearchState);
-            }
         },
 
         /**
